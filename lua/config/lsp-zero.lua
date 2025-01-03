@@ -29,11 +29,20 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
   end,
 })
-
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  -- Replace the language servers listed here
+  -- with the ones you want to install
+  ensure_installed = {'lua_ls'},
+  handlers = {
+    function(server_name)
+      require('lspconfig')[server_name].setup({})
+    end,
+  }
+})
 -- These are just examples. Replace them with the language
 -- servers you have installed in your system
-require('lspconfig').gleam.setup({})
-require('lspconfig').rust_analyzer.setup({})
+require('lspconfig').lua_ls.setup({})
 
 local cmp = require('cmp')
 
